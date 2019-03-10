@@ -15,14 +15,27 @@ aliases:
       npm run clean
       npm run build
 
+  - &filter_common
+    branches:
+      ignore: gh-pages
+    tags:
+      ignore: /.*/
+
 version: 2
 jobs:
   node_v8:
-  <<: *defaults
-  steps:
-    - checkout
-    - run: *install_npm
-    - run: *build_package
-    - run:
-        name: test
-        command: npm run test
+    <<: *defaults
+    steps:
+      - checkout
+      - run: *install_npm
+      - run: *build_package
+      - run:
+          name: test
+          command: npm run test
+
+workflows:
+  version: 2
+  dev-builds:
+    jobs:
+      - node_v8:
+          filters: *filter_common
