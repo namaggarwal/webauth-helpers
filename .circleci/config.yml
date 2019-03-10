@@ -18,7 +18,7 @@ aliases:
 version: 2
 jobs:
   node_v8:
-    <<: *defaults
+  <<: *defaults
   steps:
     - checkout
     - run: *install_npm
