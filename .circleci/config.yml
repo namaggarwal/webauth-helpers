@@ -1,4 +1,4 @@
-aliases
+aliases:
   - &install_npm
     name: install dependencies
     command: |
