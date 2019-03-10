@@ -12,7 +12,6 @@ aliases:
   - &build_package
     name: build package
     command: |
-      npm run clean
       npm run build
 
   - &filter_common
