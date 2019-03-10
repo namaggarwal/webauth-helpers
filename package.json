@@ -4,13 +4,23 @@
   "description": "",
   "scripts": {
     "build": "webpack --config webpack.prod.config.js",
-    "start": "webpack-dev-server --open --config webpack.dev.config.js"
+    "start": "webpack-dev-server --open --config webpack.dev.config.js",
+    "test": "mocha -r ts-node/register src/**/*.test.ts",
+    "testWithCoverage": "nyc -r lcov -e .ts -x '*.test.ts' mocha -r ts-node/register src/**/*.test.ts && nyc report"
   },
   "author": "Naman Aggarwal",
   "license": "MIT",
   "devDependencies": {
+    "@types/chai": "^4.1.7",
+    "@types/mocha": "^5.2.6",
+    "@types/sinon": "^7.0.9",
+    "chai": "^4.2.0",
     "clean-webpack-plugin": "^2.0.0",
+    "mocha": "^6.0.2",
+    "nyc": "^13.3.0",
+    "sinon": "^7.2.7",
     "ts-loader": "^5.3.3",
+    "ts-node": "^8.0.3",
     "typescript": "^3.3.3333",
     "webpack": "^4.29.6",
     "webpack-cli": "^3.2.3",

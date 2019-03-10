@@ -3,7 +3,7 @@ interface SerialPublicKeyCredentialUserEntity {
   [propName: string]: any;
 }
 
-interface SerialPublicKeyCredentialRequestOptions {
+export interface SerialPublicKeyCredentialRequestOptions {
   readonly challenge: string
   readonly user: SerialPublicKeyCredentialUserEntity
   [propName: string]: any;
@@ -14,7 +14,7 @@ interface PublicKeyCredentialUserEntity {
   [propName: string]: any;
 }
 
-interface PublicKeyCredentialRequestOptions {
+export interface PublicKeyCredentialRequestOptions {
   challenge: ArrayBuffer
   user: PublicKeyCredentialUserEntity
   [propName: string]: any;
@@ -25,7 +25,7 @@ interface PublicKeyCredentialRequestOptions {
  * @param  {Function} encode
  * @returns any
  */
-function publicKeyCredentialToJSON(pubKeyCred: any, encode: Function): any {
+export function publicKeyCredentialToJSON(pubKeyCred: any, encode: Function): any {
   if (pubKeyCred instanceof Array) {
     let arr = [];
     for (let i of pubKeyCred)
@@ -48,7 +48,7 @@ function publicKeyCredentialToJSON(pubKeyCred: any, encode: Function): any {
  * @param  {Function} decode
  * @returns PublicKeyCredentialRequestOptions
  */
-function preFormatCreateCredentialRequest(credentials: SerialPublicKeyCredentialRequestOptions, decode: Function): PublicKeyCredentialRequestOptions {
+export function preFormatCreateCredentialRequest(credentials: SerialPublicKeyCredentialRequestOptions, decode: Function): PublicKeyCredentialRequestOptions {
   const createCredentialRequest: PublicKeyCredentialRequestOptions = {
     ...credentials,
     challenge: decode(credentials.challenge),
