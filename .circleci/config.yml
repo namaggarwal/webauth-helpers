@@ -1,0 +1,28 @@
+aliases
+  - &install_npm
+    name: install dependencies
+    command: |
+      npm install
+
+  - &defaults
+    working_directory: ~/project
+    docker:
+      - image: circleci/node:8
+
+  - &build_package
+    name: build package
+    command: |
+      npm run clean
+      npm run build
+
+version: 2
+jobs:
+  node_v8:
+    <<: *defaults
+  steps:
+    - checkout
+    - run: *install_npm
+    - run: *build_package
+    - run:
+          name: test
+          command: npm run test
