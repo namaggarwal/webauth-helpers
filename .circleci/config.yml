@@ -23,6 +23,21 @@ aliases:
     docker:
       - image: circleci/node:8
 
+  - &defaults_publish
+    working_directory: ~/project
+    docker:
+      - image: cibuilds/github:0.12
+
+  - &github_publish
+    steps:
+      - attach_workspace:
+          at: .
+      - run:
+          name: "Publish Release on GitHub"
+          command: |
+            ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete ${CIRCLE_TAG} ./lib/
+
+
   - &build_package
     name: build package
     command: |
@@ -86,17 +101,12 @@ jobs:
           path: coverage
 
   publish-github-release:
-    docker:
-      - image: cibuilds/github:0.12
-    working_directory: ~/project
-    steps:
-      - attach_workspace:
-          at: .
-      - run:
-          name: "Publish Release on GitHub"
-          command: |
-            ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete ${CIRCLE_TAG} ./lib/
+    <<: *defaults_publish
+    <<: *github_publish
 
+  publish-github-beta:
+    <<: *defaults_publish
+    <<: *github_publish
 
 workflows:
   version: 2
@@ -112,7 +122,7 @@ workflows:
           filters: *filter_tag_all
       - node_v10:
           filters: *filter_tag_all
-      - publish-github-release:
+      - publish-github-beta:
           requires:
             - node_v8
             - node_v10
