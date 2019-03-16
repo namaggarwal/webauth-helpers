@@ -14,6 +14,10 @@ aliases:
     command: |
       npm run build
 
+  - &test_with_coverage
+    name: test
+    command: npm run testWithCoverage
+
   - &filter_common
     branches:
       ignore: gh-pages
@@ -28,9 +32,7 @@ jobs:
       - checkout
       - run: *install_npm
       - run: *build_package
-      - run:
-          name: test
-          command: npm run test
+      - run: *test_with_coverage
 
 workflows:
   version: 2

@@ -20,8 +20,11 @@ module.exports = {
     extensions: [ '.ts', '.tsx', '.js' ]
   },
   output: {
-    filename: 'webauth-helpers.js',
+    filename: 'index.js',
     path: path.resolve(__dirname, 'lib'),
-    libraryTarget: 'umd'
+    libraryTarget: 'umd',
+    umdNamedDefine: true,
+    library: 'WebAuthHelpers',
+    globalObject: `(typeof self !== 'undefined' ? self : this)`
   }
 };

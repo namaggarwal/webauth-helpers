@@ -6,7 +6,7 @@
     "build": "webpack --config webpack.prod.config.js",
     "start": "webpack-dev-server --open --config webpack.dev.config.js",
     "test": "mocha -r ts-node/register src/**/*.test.ts",
-    "testWithCoverage": "nyc -r lcov -e .ts -x '*.test.ts' mocha -r ts-node/register src/**/*.test.ts && nyc report"
+    "testWithCoverage": "nyc -r lcov -e .ts -x 'src/**/*.test.ts' mocha -r ts-node/register src/**/*.test.ts && nyc report"
   },
   "author": "Naman Aggarwal",
   "license": "MIT",

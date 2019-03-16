@@ -1,10 +1,10 @@
 import { decode, encode } from './base64-arraybuffer';
-import { SerialPublicKeyCredentialRequestOptions, PublicKeyCredentialRequestOptions, preFormatCreateCredentialRequest, publicKeyCredentialToJSON } from './webauth-helpers';
+import { SerialPublicKeyCredentialRequestOptions, PublicKeyCredentialRequestOptions, preFormatCreateCredentialRequest as pccr, publicKeyCredentialToJSON as pkcj } from './webauth-helpers';
 
-const WebAuthHelper = {
-  preFormatCreateCredentialRequest: (credentials: SerialPublicKeyCredentialRequestOptions): PublicKeyCredentialRequestOptions => (preFormatCreateCredentialRequest(credentials, decode)),
-  publicKeyCredentialToJSON: (pubKeyCred: any) => (publicKeyCredentialToJSON(pubKeyCred, encode)),
-}
+const preFormatCreateCredentialRequest =  (credentials: SerialPublicKeyCredentialRequestOptions): PublicKeyCredentialRequestOptions => (pccr(credentials, decode));
+const publicKeyCredentialToJSON = (pubKeyCred: any) => (pkcj(pubKeyCred, encode));
 
-export { WebAuthHelper };
-
+export {
+  preFormatCreateCredentialRequest,
+  publicKeyCredentialToJSON
+};
