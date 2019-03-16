@@ -50,6 +50,12 @@ aliases:
     branches:
       ignore: /.*/
 
+  - &filter_tag_beta
+    tags:
+      only: /^v[0-9]+(\.[0-9]+)*\-[0-9]+$/
+    branches:
+      ignore: /.*/
+
 version: 2
 jobs:
   node_v8:
@@ -106,6 +112,11 @@ workflows:
           filters: *filter_tag_all
       - node_v10:
           filters: *filter_tag_all
+      - publish-github-release:
+          requires:
+            - node_v8
+            - node_v10
+          filters: *filter_tag_beta
       - hold:
           type: approval
           requires:
