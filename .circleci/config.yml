@@ -1,4 +1,18 @@
 aliases:
+  - &restore_test_cache
+    keys:
+      - test-{{ .Environment.PROJECT_CACHE_VERSION }}-{{ .Branch }}-{{ .Environment.CIRCLE_JOB }}-{{ checksum "package-lock.json" }}
+
+  - &save_test_cache
+    paths:
+      - ./node_modules
+    key: test-{{ .Environment.PROJECT_CACHE_VERSION }}-{{ .Branch }}-{{ .Environment.CIRCLE_JOB }}-{{ checksum "package-lock.json" }}
+
+  - &save_test_cache
+    paths:
+      - ./node_modules
+    key: test-{{ .Environment.PROJECT_CACHE_VERSION }}-{{ .Branch }}-{{ .Environment.CIRCLE_JOB }}-{{ checksum "package-lock.json" }}
+
   - &install_npm
     name: install dependencies
     command: |
@@ -16,12 +30,24 @@ aliases:
 
   - &test_with_coverage
     name: test
-    command: npm run testWithCoverage
+    command: npm run test-with-coverage
 
   - &filter_common
     branches:
       ignore: gh-pages
     tags:
+      ignore: /.*/
+
+  - &filter_tag_all
+    tags:
+      only: /^v.*/
+    branches:
+      ignore: /.*/
+
+  - &filter_tag_stable
+    tags:
+      only: /^v[0-9]+(\.[0-9]+)*$/
+    branches:
       ignore: /.*/
 
 version: 2
@@ -30,9 +56,41 @@ jobs:
     <<: *defaults
     steps:
       - checkout
+      - restore-cache: *restore_test_cache
+      - run: *install_npm
+      - save_cache: *save_test_cache
+      - run: *build_package
+      - run: *test_with_coverage
+      - store_test_results:
+          path: coverage
+      - persist_to_workspace:
+          root: .
+          paths:
+            - lib
+
+  node_v10:
+    docker:
+      - image: circleci/node:10
+    steps:
+      - checkout
       - run: *install_npm
       - run: *build_package
       - run: *test_with_coverage
+      - store_test_results:
+          path: coverage
+
+  publish-github-release:
+    docker:
+      - image: cibuilds/github:0.12
+    working_directory: ~/project
+    steps:
+      - attach_workspace:
+          at: .
+      - run:
+          name: "Publish Release on GitHub"
+          command: |
+            ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete ${CIRCLE_TAG} ./lib/
+
 
 workflows:
   version: 2
@@ -40,3 +98,21 @@ workflows:
     jobs:
       - node_v8:
           filters: *filter_common
+      - node_v10:
+          filters: *filter_common
+  prod-builds:
+    jobs:
+      - node_v8:
+          filters: *filter_tag_all
+      - node_v10:
+          filters: *filter_tag_all
+      - hold:
+          type: approval
+          requires:
+            - node_v8
+            - node_v10
+          filters: *filter_tag_stable
+      - publish-github-release:
+          requires:
+            - hold
+          filters: *filter_tag_stable
