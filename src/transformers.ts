@@ -1,22 +1,44 @@
 interface SerialPublicKeyCredentialUserEntity {
-  readonly id: string
+  readonly id: string;
   [propName: string]: any;
 }
 
 export interface SerialPublicKeyCredentialRequestOptions {
-  readonly challenge: string
-  readonly user: SerialPublicKeyCredentialUserEntity
+  readonly challenge: string;
+  readonly user: SerialPublicKeyCredentialUserEntity;
   [propName: string]: any;
 }
 
+export interface SerialPublicKeyCredentialAssertOptions {
+  readonly challenge: string;
+  readonly allowedCredentials : SerialAllowedCredential[];
+  [propName: string]: any;
+}
+
+interface SerialAllowedCredential {
+  readonly type: string;
+  readonly id: string;
+}
+
+interface AllowedCredential {
+  type: string;
+  id: ArrayBuffer;
+}
+
 interface PublicKeyCredentialUserEntity {
-  id: ArrayBuffer
+  id: ArrayBuffer;
   [propName: string]: any;
 }
 
 export interface PublicKeyCredentialRequestOptions {
-  challenge: ArrayBuffer
-  user: PublicKeyCredentialUserEntity
+  challenge: ArrayBuffer;
+  user: PublicKeyCredentialUserEntity;
+  [propName: string]: any;
+}
+
+export interface PublicKeyCredentialAssertOptions {
+  challenge: ArrayBuffer;
+  allowedCredentials : AllowedCredential[];
   [propName: string]: any;
 }
 
@@ -27,17 +49,18 @@ export interface PublicKeyCredentialRequestOptions {
  */
 export function publicKeyCredentialToJSON(pubKeyCred: any, encode: Function): any {
   if (pubKeyCred instanceof Array) {
-    let arr = [];
-    for (let i of pubKeyCred)
+    const arr = [];
+    for (const i of pubKeyCred) {
       arr.push(publicKeyCredentialToJSON(i, encode));
+    }
     return arr;
   }
   if (pubKeyCred instanceof ArrayBuffer) {
     return encode(pubKeyCred);
   }
   if (pubKeyCred instanceof Object) {
-    let obj: any = {};
-    for (let key in pubKeyCred) {
+    const obj: any = {};
+    for (const key in pubKeyCred) {
       obj[key] = publicKeyCredentialToJSON(pubKeyCred[key], encode);
     }
     return obj;
@@ -49,7 +72,10 @@ export function publicKeyCredentialToJSON(pubKeyCred: any, encode: Function): an
  * @param  {Function} decode
  * @returns PublicKeyCredentialRequestOptions
  */
-export function preFormatCreateCredentialRequest(credentials: SerialPublicKeyCredentialRequestOptions, decode: Function): PublicKeyCredentialRequestOptions {
+export function preFormatCreateCredentialRequest(
+     credentials: SerialPublicKeyCredentialRequestOptions,
+     decode: Function)
+     : PublicKeyCredentialRequestOptions {
   const createCredentialRequest: PublicKeyCredentialRequestOptions = {
     ...credentials,
     challenge: decode(credentials.challenge),
@@ -59,6 +85,23 @@ export function preFormatCreateCredentialRequest(credentials: SerialPublicKeyCre
     },
   };
 
-  return createCredentialRequest
+  return createCredentialRequest;
 }
 
+/**
+ * @param  {SerialPublicKeyCredentialAssertOptions} credentials
+ * @param  {Function} decode
+ * @returns PublicKeyCredentialAssertOptions
+ */
+export function preFormatGetAssertionRequest(
+    credentials: SerialPublicKeyCredentialAssertOptions
+  , decode: Function)
+  : PublicKeyCredentialAssertOptions {
+  const getAssertionRequest: PublicKeyCredentialAssertOptions = {
+    ...credentials,
+    challenge: decode(credentials.challenge),
+    allowedCredentials: credentials.allowedCredentials.map(ac => ({ ...ac, id: decode(ac.id) })),
+  };
+
+  return getAssertionRequest;
+}
