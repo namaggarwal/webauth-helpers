@@ -42,6 +42,7 @@ export function publicKeyCredentialToJSON(pubKeyCred: any, encode: Function): an
     }
     return obj;
   }
+  return pubKeyCred;
 }
 /**
  * @param  {SerialPublicKeyCredentialRequestOptions} credentials

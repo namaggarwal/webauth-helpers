@@ -1,5 +1,5 @@
 
-import {preFormatCreateCredentialRequest} from './webauth-helpers';
+import {preFormatCreateCredentialRequest, publicKeyCredentialToJSON} from './webauth-helpers';
 import {expect} from 'chai';
 import * as sinon from 'sinon';
 
@@ -20,6 +20,36 @@ describe('webauth-helpers', function() {
         expect(data.user.id.byteLength).to.equal(5);
       });
     });
+
+  });
+
+  describe('publicKeyCredentialToJSON', () => {
+    //given
+    const encode = sinon.stub();
+    encode.returns('testArrayBuffer')
+      //when
+    describe('on input having object as arraybuffers', function(){
+      const data = publicKeyCredentialToJSON({some: 'test123', one: new ArrayBuffer(32) }, encode)
+      //then
+      it('object key with no arraybuffer should be correct', () => {
+        expect(data.some).to.equal('test123');
+      })
+      it('object key with arraybuffer should be correct', () => {
+        expect(data.one).to.equal('testArrayBuffer');
+      });
+    });
+
+    describe('on input having array as arraybuffers', function(){
+      const data = publicKeyCredentialToJSON([ 'test123',new ArrayBuffer(32) ], encode)
+      //then
+      it('no arraybuffer should be correct', () => {
+        expect(data[0]).to.equal('test123');
+      })
+      it('object key with arraybuffer should be correct', () => {
+        expect(data[1]).to.equal('testArrayBuffer');
+      });
+    });
+
   });
 
 

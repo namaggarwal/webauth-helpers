@@ -102,7 +102,7 @@
       "forin": false,
       "member-access": false, // [true, "no-public"]
       "no-conditional-assignment": false,
-      "no-console": false,
+      "no-console": true,
       "no-debugger": false,
       "no-empty-interface": false,
       "no-object-literal-type-assertion": false,
