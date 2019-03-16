@@ -1,5 +1,5 @@
 
-import {preFormatCreateCredentialRequest, publicKeyCredentialToJSON} from './webauth-helpers';
+import {preFormatCreateCredentialRequest, publicKeyCredentialToJSON} from './transformers';
 import {expect} from 'chai';
 import * as sinon from 'sinon';
 

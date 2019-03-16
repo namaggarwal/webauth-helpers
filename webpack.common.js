@@ -3,7 +3,7 @@ const CleanWebpackPlugin = require('clean-webpack-plugin');
 
 
 module.exports = {
-  entry: './src/index.ts',
+  entry: './src/webauth-helpers.ts',
   module: {
     rules: [
       {
@@ -20,7 +20,7 @@ module.exports = {
     extensions: [ '.ts', '.tsx', '.js' ]
   },
   output: {
-    filename: 'index.js',
+    filename: 'webauth-helpers.min.js',
     path: path.resolve(__dirname, 'lib'),
     libraryTarget: 'umd',
     umdNamedDefine: true,
