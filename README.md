@@ -16,11 +16,29 @@ The response from `navigator.credentials.create` and `navigator.credentials.get`
 
 ## Usage
 
+### How to include
+
+#### On Node
+
+Include the library
+```
+npm i webauth-helpers
+```
+
+Require and use
+```
+var WebAuthHelpers = require('webauth-helpers')
+```
+
+#### On Browsers
+
 Download the library and include in the head
 
 ```
- <script type="text/javascript" src="https://github.com/namaggarwal/webauth-helpers/releases/tag/v0.0.7"></script>
+ <script type="text/javascript" src="https://github.com/namaggarwal/webauth-helpers/releases/tag/v0.0.11"></script>
 ```
+
+### How to use
 
 Use `WebAuthHelpers.formatRequest` function to convert to Array Buffer before making a create credentials request.
 
