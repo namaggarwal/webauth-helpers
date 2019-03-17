@@ -1,4 +1,5 @@
-# webauth-helpers
+# webauth-helpers [![CircleCI](https://circleci.com/gh/namaggarwal/webauth-helpers.svg?style=svg)](https://circleci.com/gh/namaggarwal/webauth-helpers) [![npm](https://img.shields.io/npm/v/webauth-helpers.svg)](https://www.npmjs.com/package/webauth-helpers)
+
 Helper Library for WebAuth API
 
 ## Use case
