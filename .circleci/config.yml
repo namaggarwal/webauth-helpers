@@ -37,6 +37,16 @@ aliases:
           command: |
             ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete ${CIRCLE_TAG} ./lib/
 
+  - &npm_publish
+    steps:
+      - attach_workspace:
+          at: .
+      - run:
+          name: Authenticate with registry
+          command: echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > ./.npmrc
+      - run:
+          name: Publish package
+          command: npm publish
 
   - &build_package
     name: build package
@@ -107,6 +117,10 @@ jobs:
     <<: *defaults_publish
     <<: *github_publish
 
+  publish-npm-stable:
+    <<: *defaults
+    <<: *npm_publish
+
 workflows:
   version: 2
   dev-builds:
@@ -131,8 +145,8 @@ workflows:
           requires:
             - node_v8
             - node_v10
-          filters: *filter_tag_stable
-      - publish-github-release:
+          filters: *filter_tag_beta
+      - publish-npm-stable:
           requires:
             - hold
-          filters: *filter_tag_stable
+          filters: *filter_tag_beta
