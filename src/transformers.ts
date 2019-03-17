@@ -6,7 +6,7 @@ interface SerialPublicKeyCredentialUserEntity {
 export interface SerialPublicKeyCredentialOptions {
   readonly challenge: string;
   readonly user ?: SerialPublicKeyCredentialUserEntity;
-  readonly allowedCredentials ?: SerialAllowedCredential[];
+  readonly allowCredentials ?: SerialAllowedCredential[];
   [propName: string]: any;
 }
 
@@ -15,7 +15,7 @@ interface SerialAllowedCredential {
   readonly id: string;
 }
 
-interface AllowedCredential {
+interface AllowCredential {
   type: string;
   id: ArrayBuffer;
 }
@@ -28,7 +28,7 @@ interface PublicKeyCredentialUserEntity {
 export interface PublicKeyCredentialOptions {
   challenge: ArrayBuffer;
   user ?: PublicKeyCredentialUserEntity;
-  allowedCredentials ?: AllowedCredential[];
+  allowCredentials ?: AllowCredential[];
   [propName: string]: any;
 }
 
@@ -73,8 +73,8 @@ export function formatCredentialRequest(
       ...credentials.user,
       id: decode(credentials.user.id),
     },
-    allowedCredentials: credentials.allowedCredentials &&
-       credentials.allowedCredentials.map(ac => ({ ...ac, id: decode(ac.id) })),
+    allowCredentials: credentials.allowCredentials &&
+       credentials.allowCredentials.map(ac => ({ ...ac, id: decode(ac.id) })),
   };
 
   return credentialRequest;

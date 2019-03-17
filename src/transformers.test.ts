@@ -22,7 +22,7 @@ describe('webauth-helpers', () => {
         {
           challenge: 'testchallenge',
           user: { id: 'testuserid' },
-          allowedCredentials: [{ id: 'testuserid1', type: 'public-key' },
+          allowCredentials: [{ id: 'testuserid1', type: 'public-key' },
           { id: 'testuserid2', type: 'public-key2' }],
         },
         decode);
@@ -34,16 +34,16 @@ describe('webauth-helpers', () => {
         expect(data.user && data.user.id.byteLength).to.equal(5);
       });
       it('allowedcredentials1.id  should be correct', () => {
-        expect(data.allowedCredentials && data.allowedCredentials[0].id.byteLength).to.equal(4);
+        expect(data.allowCredentials && data.allowCredentials[0].id.byteLength).to.equal(4);
       });
       it('allowedcredentials1.type should be correct', () => {
-        expect(data.allowedCredentials && data.allowedCredentials[0].type).to.equal('public-key');
+        expect(data.allowCredentials && data.allowCredentials[0].type).to.equal('public-key');
       });
       it('allowedcredentials2.id  should be correct', () => {
-        expect(data.allowedCredentials && data.allowedCredentials[1].id.byteLength).to.equal(3);
+        expect(data.allowCredentials && data.allowCredentials[1].id.byteLength).to.equal(3);
       });
       it('allowedcredentials2.type should be correct', () => {
-        expect(data.allowedCredentials && data.allowedCredentials[1].type).to.equal('public-key2');
+        expect(data.allowCredentials && data.allowCredentials[1].type).to.equal('public-key2');
       });
     });
 

@@ -1,8 +1,66 @@
 <html>
-  <head>
-    <script type="text/javascript" src="./lib/index.js"></script>
-  </head>
-  <body>
-    Naman
-  </body>
+
+<head>
+  <script type="text/javascript"
+    src="./lib/webauth-helpers.min.js"></script>
+</head>
+
+<body>
+  <button id="btnCreate" onclick="createCredentials()" type="button">Create Credential</button>
+  <button id="btnAuth" onclick="assertCredentials()" type="button">Verify Credential</button>
+  <script type="text/javascript">
+    var publicKey = {
+      'challenge': "somebase64encodedrandomsamplesdsddssd",
+
+      'rp': {
+        'name': 'Naman Aggarwal Corp'
+      },
+
+      'user': {
+        'id': "somebase64encodeduserid",
+        'name': 'alice@example.com',
+        'displayName': 'Alice Liddell'
+      },
+
+      'pubKeyCredParams': [
+        { 'type': 'public-key', 'alg': -7 },
+      ]
+    };
+
+    function createCredentials() {
+      const transformedKey = WebAuthHelpers.formatRequest(publicKey);
+      console.log(transformedKey);
+      navigator.credentials.create({ 'publicKey': transformedKey })
+        .then((newCredentialInfo) => {
+          console.log(newCredentialInfo.id);
+          console.log(WebAuthHelpers.formatResponse(newCredentialInfo.response));
+        })
+        .catch((error) => {
+          console.log('FAIL', error)
+        })
+    }
+
+    var getCredentials = {
+      'challenge': "somebase64encodedrandomsampleweewwewweewew",
+
+      'allowCredentials': [
+        {id: "ALXyXXbmh0jf5IrNe6bUeqDosVLmpK_43RxZfQGE_Uo1AqyS6bPWB7Eg57F5iixXL1QRw3tu0GaLiqF2F0ZDQ0O7pWZie8Qtj2z4-4hpCV8", type: 'public-key'}
+      ],
+    };
+
+    function assertCredentials() {
+      const transformedKey = WebAuthHelpers.formatRequest(getCredentials);
+      console.log(transformedKey);
+      navigator.credentials.get({'publicKey': transformedKey})
+        .then((newCredentialInfo) => {
+          console.log(newCredentialInfo);
+          console.group('SUCCESS', WebAuthHelpers.formatResponse(newCredentialInfo.response))
+        })
+        .catch((error) => {
+          console.log('FAIL', error)
+        })
+    }
+  </script>
+</body>
+
 </html>
