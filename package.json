@@ -1,5 +1,5 @@
 {
-  "name": "webauth-helper",
+  "name": "webauth-helpers",
   "version": "0.0.7",
   "description": "Web Authenticaltion API helper library",
   "scripts": {
