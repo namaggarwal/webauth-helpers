@@ -3,15 +3,10 @@ interface SerialPublicKeyCredentialUserEntity {
   [propName: string]: any;
 }
 
-export interface SerialPublicKeyCredentialRequestOptions {
+export interface SerialPublicKeyCredentialOptions {
   readonly challenge: string;
-  readonly user: SerialPublicKeyCredentialUserEntity;
-  [propName: string]: any;
-}
-
-export interface SerialPublicKeyCredentialAssertOptions {
-  readonly challenge: string;
-  readonly allowedCredentials : SerialAllowedCredential[];
+  readonly user ?: SerialPublicKeyCredentialUserEntity;
+  readonly allowedCredentials ?: SerialAllowedCredential[];
   [propName: string]: any;
 }
 
@@ -30,15 +25,10 @@ interface PublicKeyCredentialUserEntity {
   [propName: string]: any;
 }
 
-export interface PublicKeyCredentialRequestOptions {
+export interface PublicKeyCredentialOptions {
   challenge: ArrayBuffer;
-  user: PublicKeyCredentialUserEntity;
-  [propName: string]: any;
-}
-
-export interface PublicKeyCredentialAssertOptions {
-  challenge: ArrayBuffer;
-  allowedCredentials : AllowedCredential[];
+  user ?: PublicKeyCredentialUserEntity;
+  allowedCredentials ?: AllowedCredential[];
   [propName: string]: any;
 }
 
@@ -68,40 +58,24 @@ export function publicKeyCredentialToJSON(pubKeyCred: any, encode: Function): an
   return pubKeyCred;
 }
 /**
- * @param  {SerialPublicKeyCredentialRequestOptions} credentials
+ * @param  {SerialPublicKeyCredentialOptions} credentials
  * @param  {Function} decode
- * @returns PublicKeyCredentialRequestOptions
+ * @returns PublicKeyCredentialOptions
  */
-export function preFormatCreateCredentialRequest(
-     credentials: SerialPublicKeyCredentialRequestOptions,
+export function formatCredentialRequest(
+     credentials: SerialPublicKeyCredentialOptions,
      decode: Function)
-     : PublicKeyCredentialRequestOptions {
-  const createCredentialRequest: PublicKeyCredentialRequestOptions = {
+     : PublicKeyCredentialOptions {
+  const credentialRequest: PublicKeyCredentialOptions = {
     ...credentials,
     challenge: decode(credentials.challenge),
-    user: {
+    user: credentials.user && {
       ...credentials.user,
       id: decode(credentials.user.id),
     },
+    allowedCredentials: credentials.allowedCredentials &&
+       credentials.allowedCredentials.map(ac => ({ ...ac, id: decode(ac.id) })),
   };
 
-  return createCredentialRequest;
-}
-
-/**
- * @param  {SerialPublicKeyCredentialAssertOptions} credentials
- * @param  {Function} decode
- * @returns PublicKeyCredentialAssertOptions
- */
-export function preFormatGetAssertionRequest(
-    credentials: SerialPublicKeyCredentialAssertOptions
-  , decode: Function)
-  : PublicKeyCredentialAssertOptions {
-  const getAssertionRequest: PublicKeyCredentialAssertOptions = {
-    ...credentials,
-    challenge: decode(credentials.challenge),
-    allowedCredentials: credentials.allowedCredentials.map(ac => ({ ...ac, id: decode(ac.id) })),
-  };
-
-  return getAssertionRequest;
+  return credentialRequest;
 }

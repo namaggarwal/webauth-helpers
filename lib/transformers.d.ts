@@ -2,14 +2,10 @@ interface SerialPublicKeyCredentialUserEntity {
     readonly id: string;
     [propName: string]: any;
 }
-export interface SerialPublicKeyCredentialRequestOptions {
+export interface SerialPublicKeyCredentialOptions {
     readonly challenge: string;
-    readonly user: SerialPublicKeyCredentialUserEntity;
-    [propName: string]: any;
-}
-export interface SerialPublicKeyCredentialAssertOptions {
-    readonly challenge: string;
-    readonly allowedCredentials: SerialAllowedCredential[];
+    readonly user?: SerialPublicKeyCredentialUserEntity;
+    readonly allowedCredentials?: SerialAllowedCredential[];
     [propName: string]: any;
 }
 interface SerialAllowedCredential {
@@ -24,17 +20,12 @@ interface PublicKeyCredentialUserEntity {
     id: ArrayBuffer;
     [propName: string]: any;
 }
-export interface PublicKeyCredentialRequestOptions {
+export interface PublicKeyCredentialOptions {
     challenge: ArrayBuffer;
-    user: PublicKeyCredentialUserEntity;
-    [propName: string]: any;
-}
-export interface PublicKeyCredentialAssertOptions {
-    challenge: ArrayBuffer;
-    allowedCredentials: AllowedCredential[];
+    user?: PublicKeyCredentialUserEntity;
+    allowedCredentials?: AllowedCredential[];
     [propName: string]: any;
 }
 export declare function publicKeyCredentialToJSON(pubKeyCred: any, encode: Function): any;
-export declare function preFormatCreateCredentialRequest(credentials: SerialPublicKeyCredentialRequestOptions, decode: Function): PublicKeyCredentialRequestOptions;
-export declare function preFormatGetAssertionRequest(credentials: SerialPublicKeyCredentialAssertOptions, decode: Function): PublicKeyCredentialAssertOptions;
+export declare function formatCredentialRequest(credentials: SerialPublicKeyCredentialOptions, decode: Function): PublicKeyCredentialOptions;
 export {};
