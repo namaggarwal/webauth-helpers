@@ -1,6 +1,6 @@
 {
   "name": "webauth-helpers",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "Web Authenticaltion API helper library",
   "scripts": {
     "build": "webpack --config webpack.prod.config.js",
@@ -10,6 +10,8 @@
   },
   "author": "Naman Aggarwal <aggarwal.nam@gmail.com>",
   "license": "MIT",
+  "main": "./lib/webauth-helpers.min.js",
+  "types": "./lib/webauth-helpers.d.ts",
   "devDependencies": {
     "@types/chai": "^4.1.7",
     "@types/mocha": "^5.2.6",
