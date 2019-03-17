@@ -1,14 +1,14 @@
 {
   "name": "webauth-helper",
-  "version": "0.0.4",
-  "description": "",
+  "version": "0.0.7",
+  "description": "Web Authenticaltion API helper library",
   "scripts": {
     "build": "webpack --config webpack.prod.config.js",
     "start": "webpack-dev-server --open --config webpack.dev.config.js",
     "test": "mocha -r ts-node/register src/**/*.test.ts",
     "test-with-coverage": "nyc -e .ts -x 'src/**/*.test.ts' mocha -r ts-node/register src/**/*.test.ts --reporter mocha-junit-reporter --reporter-options mochaFile=coverage/mocha/test-results.xml"
   },
-  "author": "Naman Aggarwal",
+  "author": "Naman Aggarwal <aggarwal.nam@gmail.com>",
   "license": "MIT",
   "devDependencies": {
     "@types/chai": "^4.1.7",
@@ -29,5 +29,20 @@
     "webpack-cli": "^3.2.3",
     "webpack-dev-server": "^3.2.1",
     "webpack-merge": "^4.2.1"
+  },
+  "keywords": [
+    "web authentication",
+    "authentication",
+    "helpers",
+    "webauthn",
+    "webauth",
+    "base64",
+    "encoding",
+    "decoding"
+  ],
+  "homepage": "https://github.com/namaggarwal/webauth-helpers",
+  "repository": {
+    "type" : "git",
+    "url" : "https://github.com/namaggarwal/webauth-helpers.git"
   }
 }
