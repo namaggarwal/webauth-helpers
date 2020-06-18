@@ -5,17 +5,18 @@ interface SerialPublicKeyCredentialUserEntity {
 
 export interface SerialPublicKeyCredentialOptions {
   readonly challenge: string;
-  readonly user ?: SerialPublicKeyCredentialUserEntity;
-  readonly allowCredentials ?: SerialAllowedCredential[];
+  readonly user?: SerialPublicKeyCredentialUserEntity;
+  readonly allowCredentials?: SerialCredential[];
+  readonly excludeCredentials?: SerialCredential[];
   [propName: string]: any;
 }
 
-interface SerialAllowedCredential {
+interface SerialCredential {
   readonly type: string;
   readonly id: string;
 }
 
-interface AllowCredential {
+interface Credential {
   type: string;
   id: ArrayBuffer;
 }
@@ -27,8 +28,9 @@ interface PublicKeyCredentialUserEntity {
 
 export interface PublicKeyCredentialOptions {
   challenge: ArrayBuffer;
-  user ?: PublicKeyCredentialUserEntity;
-  allowCredentials ?: AllowCredential[];
+  user?: PublicKeyCredentialUserEntity;
+  allowCredentials?: Credential[];
+  excludeCredentials?: Credential[];
   [propName: string]: any;
 }
 
@@ -63,9 +65,9 @@ export function publicKeyCredentialToJSON(pubKeyCred: any, encode: Function): an
  * @returns PublicKeyCredentialOptions
  */
 export function formatCredentialRequest(
-     credentials: SerialPublicKeyCredentialOptions,
-     decode: Function)
-     : PublicKeyCredentialOptions {
+  credentials: SerialPublicKeyCredentialOptions,
+  decode: Function)
+  : PublicKeyCredentialOptions {
   const credentialRequest: PublicKeyCredentialOptions = {
     ...credentials,
     challenge: decode(credentials.challenge),
@@ -74,7 +76,9 @@ export function formatCredentialRequest(
       id: decode(credentials.user.id),
     },
     allowCredentials: credentials.allowCredentials &&
-       credentials.allowCredentials.map(ac => ({ ...ac, id: decode(ac.id) })),
+      credentials.allowCredentials.map(ac => ({ ...ac, id: decode(ac.id) })),
+    excludeCredentials: credentials.excludeCredentials &&
+      credentials.excludeCredentials.map(ac => ({ ...ac, id: decode(ac.id) })),
   };
 
   return credentialRequest;

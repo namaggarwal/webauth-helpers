@@ -5,14 +5,15 @@ interface SerialPublicKeyCredentialUserEntity {
 export interface SerialPublicKeyCredentialOptions {
     readonly challenge: string;
     readonly user?: SerialPublicKeyCredentialUserEntity;
-    readonly allowCredentials?: SerialAllowedCredential[];
+    readonly allowCredentials?: SerialCredential[];
+    readonly excludeCredentials?: SerialCredential[];
     [propName: string]: any;
 }
-interface SerialAllowedCredential {
+interface SerialCredential {
     readonly type: string;
     readonly id: string;
 }
-interface AllowCredential {
+interface Credential {
     type: string;
     id: ArrayBuffer;
 }
@@ -23,7 +24,8 @@ interface PublicKeyCredentialUserEntity {
 export interface PublicKeyCredentialOptions {
     challenge: ArrayBuffer;
     user?: PublicKeyCredentialUserEntity;
-    allowCredentials?: AllowCredential[];
+    allowCredentials?: Credential[];
+    excludeCredentials?: Credential[];
     [propName: string]: any;
 }
 export declare function publicKeyCredentialToJSON(pubKeyCred: any, encode: Function): any;
