@@ -1,6 +1,6 @@
 {
   "name": "webauth-helpers",
-  "version": "0.0.12",
+  "version": "0.1.0",
   "description": "Web Authenticaltion API helper library",
   "scripts": {
     "build": "webpack --config webpack.prod.config.js",
@@ -32,7 +32,7 @@
     "webpack-dev-server": "^3.2.1",
     "webpack-merge": "^4.2.1"
   },
-  "files":[
+  "files": [
     "package.json",
     "README.md",
     "LICENSE",
@@ -51,7 +51,7 @@
   ],
   "homepage": "https://github.com/namaggarwal/webauth-helpers",
   "repository": {
-    "type" : "git",
-    "url" : "https://github.com/namaggarwal/webauth-helpers.git"
+    "type": "git",
+    "url": "https://github.com/namaggarwal/webauth-helpers.git"
   }
 }
