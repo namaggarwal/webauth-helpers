@@ -28,6 +28,8 @@ export function encode(arraybuffer: ArrayBuffer): string {
 };
 
 export function decode(base64string: string): ArrayBuffer {
+  base64string = base64string.replace(/=+$/, '')
+  
   let bufferLength = base64string.length * 0.75,
     len = base64string.length, i, p = 0,
     encoded1, encoded2, encoded3, encoded4;
